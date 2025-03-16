@@ -27,11 +27,12 @@
 
         override fun updateStore(id: Long, request: StoreUpdateRequest): StoreResponse {
             val store = getStoreEntityById(id);
-
-            store.name = request.name
-            store.phoneNumber = request.phoneNumber
-            store.memberId = request.memberId
-            store.status = request.status
+            store.updateStore(
+                name = request.name,
+                phoneNumber = request.phoneNumber,
+                memberId = request.memberId,
+                status = request.status
+            )
             return storeRepository.save(store).toResponse()
         }
 
