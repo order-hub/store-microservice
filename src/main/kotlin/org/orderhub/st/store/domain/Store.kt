@@ -20,13 +20,18 @@ class Store(
     @Column(nullable = false)
     var memberId: Long,
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    var status: StoreStatus = StoreStatus.PREPARING,
+
     @Column(nullable = false, updatable = false)
-    var createdAt: LocalDateTime,
+    var createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(nullable = false)
-    var updatedAt: LocalDateTime
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
 
 ) {
+
     @PrePersist
     fun persist() {
         createdAt = LocalDateTime.now()
@@ -35,5 +40,9 @@ class Store(
     @PreUpdate
     fun preUpdate() {
         updatedAt = LocalDateTime.now()
+    }
+
+    fun deleteStore() {
+        status = StoreStatus.CLOSED;
     }
 }
