@@ -15,6 +15,7 @@
         private val storeRepository: StoreRepository
     ) : StoreService {
 
+        @Transactional
         override fun createStore(request: StoreCreateRequest): StoreResponse {
             val store = Store(
                 name = request.name,
@@ -25,6 +26,7 @@
             return storeRepository.save(store).toResponse()
         }
 
+        @Transactional
         override fun updateStore(id: Long, request: StoreUpdateRequest): StoreResponse {
             val store = getStoreEntityById(id);
             store.updateStore(
@@ -50,6 +52,7 @@
             return storeRepository.findById(id).map { it.toResponse() }.orElse(null)
         }
 
+        @Transactional
         override fun deleteStore(id: Long) {
             getStoreEntityById(id).deleteStore();
         }
