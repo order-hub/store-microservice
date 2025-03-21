@@ -1,6 +1,8 @@
 package org.orderhub.st.store.domain
 
 import jakarta.persistence.*
+import org.orderhub.st.inventory.domain.Inventory
+import org.orderhub.st.stock.domain.Stock
 import java.time.LocalDateTime
 
 @Entity
@@ -20,6 +22,9 @@ class Store(
     @Column(nullable = false)
     var memberId: Long,
 
+    @OneToOne(mappedBy = "store", cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
+    var inventory: Inventory = Inventory(),
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     var status: StoreStatus = StoreStatus.PREPARING,
@@ -30,7 +35,11 @@ class Store(
     @Column(nullable = false)
     var updatedAt: LocalDateTime = LocalDateTime.now(),
 
-) {
+    ) {
+
+    init {
+        inventory.assignStore(this)
+    }
 
     @PrePersist
     fun persist() {
