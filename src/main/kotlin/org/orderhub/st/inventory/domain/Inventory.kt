@@ -58,4 +58,12 @@ class Inventory(
         )
         stocks.add(newStock)
     }
+
+    fun updateStockInfo(productId: Long, newName: String, newPrice: String) {
+        val target = stocks.find { it.productId == productId }
+        if (target != null) {
+            target.name = newName
+            target.price = newPrice
+        }
+    }
 }
