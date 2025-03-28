@@ -28,6 +28,12 @@ class Stock(
     @Column(nullable = false)
     var price: String,
 
+    // product code, status
+    var productCode: String? = null,
+
+    @Enumerated(EnumType.STRING)
+    var productStatus: SaleStatus? = null,
+
     @Column(nullable = false, updatable = false)
     var createdAt: LocalDateTime = LocalDateTime.now(),
 
