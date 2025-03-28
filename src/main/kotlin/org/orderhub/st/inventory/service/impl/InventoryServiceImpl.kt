@@ -13,7 +13,7 @@ class InventoryServiceImpl(
 ) : InventoryService {
 
     @Transactional
-    fun updateProductInfoAcrossInventories(request: ProductUpdateRequest) {
+    override fun updateProductInfoAcrossInventories(request: ProductUpdateRequest) {
         val inventories = inventoryRepository.findAllWithStocksByProductId(request.productId)
 
         for (inventory in inventories) {
