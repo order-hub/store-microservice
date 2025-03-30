@@ -27,7 +27,7 @@ class InventoryServiceImpl(
     }
 
     @Transactional
-    fun deductInventory(request: InventoryDeductRequest) {
+    override fun deductInventory(request: InventoryDeductRequest) {
         val inventory = inventoryRepository.findByStoreId(request.storeId)
             ?: throw IllegalArgumentException("Inventory not found for storeId=${request.storeId}")
 
