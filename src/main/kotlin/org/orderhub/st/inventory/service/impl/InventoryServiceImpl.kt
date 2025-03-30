@@ -1,5 +1,6 @@
 package org.orderhub.st.inventory.service.impl
 
+import org.orderhub.st.inventory.dto.request.InventoryDeductRequest
 import org.orderhub.st.inventory.repository.InventoryRepository
 import org.orderhub.st.inventory.service.InventoryService
 import org.orderhub.st.stock.dto.request.ProductUpdateRequest
@@ -23,5 +24,13 @@ class InventoryServiceImpl(
                 newPrice = request.price
             )
         }
+    }
+
+    @Transactional
+    fun deductInventory(request: InventoryDeductRequest) {
+        val inventory = inventoryRepository.findByStoreId(request.storeId)
+            ?: throw IllegalArgumentException("Inventory not found for storeId=${request.storeId}")
+
+        inventory.deductStocks(request.items)
     }
 }

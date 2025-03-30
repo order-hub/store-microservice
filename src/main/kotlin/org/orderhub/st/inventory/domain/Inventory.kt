@@ -1,6 +1,7 @@
 package org.orderhub.st.inventory.domain
 
 import jakarta.persistence.*
+import org.orderhub.st.inventory.dto.request.InventoryItemRequest
 import org.orderhub.st.stock.domain.Stock
 import org.orderhub.st.stock.dto.request.StockCreateRequest
 import org.orderhub.st.store.domain.Store
@@ -66,4 +67,16 @@ class Inventory(
             target.price = newPrice
         }
     }
+
+    fun deductStocks(itemRequests: List<InventoryItemRequest>) {
+        val stockMap = stocks.associateBy { it.productId }
+
+        itemRequests.forEach { item ->
+            val stock = stockMap[item.itemId]
+                ?: throw IllegalArgumentException("No stock found for productId=${item.itemId}")
+
+            stock.updateQuantity(item.quantity.toLong())
+        }
+    }
+
 }

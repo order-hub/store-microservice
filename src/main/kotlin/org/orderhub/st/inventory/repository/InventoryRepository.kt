@@ -13,4 +13,6 @@ interface InventoryRepository : JpaRepository<Inventory, String> {
         WHERE s.productId = :productId
     """)
     fun findAllWithStocksByProductId(@Param("productId") productId: Long): List<Inventory>
+
+    fun findByStoreId(@Param("storeId") storeId: Long): Inventory
 }
